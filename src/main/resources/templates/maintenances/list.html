@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LogiTrack Pro - Manutencoes</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <span class="brand-mark">LT</span>
+            <div>
+                <h1>LogiTrack Pro</h1>
+                <p>Gestao de manutencoes</p>
+            </div>
+        </div>
+        <nav class="nav">
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <a th:href="@{/maintenances}" class="active">Manutencoes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Manutencoes</h2>
+                <a class="button" th:href="@{/maintenances/new}">Nova manutencao</a>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Veiculo</th>
+                            <th>Inicio</th>
+                            <th>Fim previsto</th>
+                            <th>Servico</th>
+                            <th>Status</th>
+                            <th>Custo</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="m : ${maintenances}">
+                            <td th:text="${m.vehicle.plate}">-</td>
+                            <td th:text="${m.startDate}">-</td>
+                            <td th:text="${m.expectedEndDate}">-</td>
+                            <td th:text="${m.serviceType}">-</td>
+                            <td th:text="${m.status}">-</td>
+                            <td th:text="${m.estimatedCost}">-</td>
+                            <td class="actions">
+                                <a th:href="@{/maintenances/{id}/edit(id=${m.id})}">Editar</a>
+                                <form method="post" th:action="@{/maintenances/{id}/delete(id=${m.id})}">
+                                    <button type="submit" class="link">Excluir</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(maintenances)}">
+                            <td colspan="7" class="muted">Nenhuma manutencao cadastrada.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

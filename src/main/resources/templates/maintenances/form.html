@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LogiTrack Pro - Manutencao</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <span class="brand-mark">LT</span>
+            <div>
+                <h1>LogiTrack Pro</h1>
+                <p>Cadastro de manutencao</p>
+            </div>
+        </div>
+        <nav class="nav">
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <a th:href="@{/maintenances}" class="active">Manutencoes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="panel">
+            <div class="panel-header">
+                <h2 th:text="${form.id != null} ? 'Editar manutencao' : 'Nova manutencao'"></h2>
+                <a class="link" th:href="@{/maintenances}">Voltar</a>
+            </div>
+            <form class="form" method="post"
+                  th:action="${form.id != null} ? @{/maintenances/{id}(id=${form.id})} : @{/maintenances}"
+                  th:object="${form}">
+                <div class="field">
+                    <label for="vehicleId">Veiculo</label>
+                    <select id="vehicleId" th:field="*{vehicleId}">
+                        <option value="">Selecione</option>
+                        <option th:each="vehicle : ${vehicles}"
+                                th:value="${vehicle.id}"
+                                th:text="${vehicle.plate + ' - ' + vehicle.model + ' (' + vehicle.type + ')'}">
+                        </option>
+                    </select>
+                    <p class="error" th:errors="*{vehicleId}"></p>
+                </div>
+                <div class="field">
+                    <label for="startDate">Data de inicio</label>
+                    <input id="startDate" type="date" th:field="*{startDate}" />
+                    <p class="error" th:errors="*{startDate}"></p>
+                </div>
+                <div class="field">
+                    <label for="expectedEndDate">Data de fim prevista</label>
+                    <input id="expectedEndDate" type="date" th:field="*{expectedEndDate}" />
+                    <p class="error" th:errors="*{expectedEndDate}"></p>
+                </div>
+                <div class="field">
+                    <label for="serviceType">Tipo de servico</label>
+                    <input id="serviceType" type="text" th:field="*{serviceType}" placeholder="Ex: Troca de oleo" />
+                    <p class="error" th:errors="*{serviceType}"></p>
+                </div>
+                <div class="field">
+                    <label for="estimatedCost">Custo estimado</label>
+                    <input id="estimatedCost" type="number" step="0.01" min="0" th:field="*{estimatedCost}" />
+                    <p class="error" th:errors="*{estimatedCost}"></p>
+                </div>
+                <div class="field">
+                    <label for="status">Status</label>
+                    <select id="status" th:field="*{status}">
+                        <option value="">Selecione</option>
+                        <option th:each="status : ${statuses}"
+                                th:value="${status}"
+                                th:text="${status}"></option>
+                    </select>
+                    <p class="error" th:errors="*{status}"></p>
+                </div>
+                <div class="actions">
+                    <button type="submit" class="button">Salvar</button>
+                </div>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

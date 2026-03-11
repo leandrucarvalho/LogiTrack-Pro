@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LogiTrack Pro - Dashboard</title>
+    <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="brand">
+            <span class="brand-mark">LT</span>
+            <div>
+                <h1>LogiTrack Pro</h1>
+                <p>Dashboard de indicadores</p>
+            </div>
+        </div>
+        <nav class="nav">
+            <a th:href="@{/dashboard}">Dashboard</a>
+            <a th:href="@{/maintenances}">Manutencoes</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Filtro de veiculo</h2>
+                <p>Veja a soma de KM da frota ou de um veiculo especifico.</p>
+            </div>
+            <form class="filter" method="get" th:action="@{/dashboard}">
+                <label for="vehicleId">Veiculo</label>
+                <select id="vehicleId" name="vehicleId">
+                    <option value="">Toda a frota</option>
+                    <option th:each="vehicle : ${vehicles}"
+                            th:value="${vehicle.id}"
+                            th:selected="${vehicle.id} == ${selectedVehicleId}"
+                            th:text="${vehicle.plate + ' - ' + vehicle.model + ' (' + vehicle.type + ')'}">
+                    </option>
+                </select>
+                <button type="submit">Aplicar</button>
+            </form>
+        </section>
+
+        <section class="cards">
+            <article class="card">
+                <h3>Total KM (frota)</h3>
+                <p class="metric" th:text="${totalKmAll}">0</p>
+            </article>
+            <article class="card" th:if="${totalKmByVehicle != null}">
+                <h3>Total KM (veiculo)</h3>
+                <p class="metric" th:text="${totalKmByVehicle}">0</p>
+            </article>
+            <article class="card">
+                <h3>Projecao financeira do mes</h3>
+                <p class="metric" th:text="${projectedMaintenanceCost}">0</p>
+            </article>
+            <article class="card">
+                <h3>Ranking de utilizacao</h3>
+                <div th:if="${topUtilization != null}">
+                    <p class="metric" th:text="${topUtilization.totalKm}">0</p>
+                    <p class="muted" th:text="${topUtilization.plate + ' - ' + topUtilization.model + ' (' + topUtilization.type + ')'}"></p>
+                </div>
+                <p class="muted" th:if="${topUtilization == null}">Sem dados de viagens.</p>
+            </article>
+            <article class="card">
+                <h3>Volume por categoria</h3>
+                <ul class="list" th:if="${#lists.size(volumeByCategory) > 0}">
+                    <li th:each="row : ${volumeByCategory}"
+                        th:text="${row.type + ': ' + row.total}"></li>
+                </ul>
+                <p class="muted" th:if="${#lists.isEmpty(volumeByCategory)}">Sem dados de viagens.</p>
+            </article>
+        </section>
+
+        <section class="panel">
+            <div class="panel-header">
+                <h2>Cronograma de manutencao</h2>
+                <p>Proximas 5 manutencoes agendadas.</p>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Veiculo</th>
+                            <th>Inicio</th>
+                            <th>Fim previsto</th>
+                            <th>Servico</th>
+                            <th>Status</th>
+                            <th>Custo estimado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="m : ${nextMaintenances}">
+                            <td th:text="${m.vehicle.plate}">-</td>
+                            <td th:text="${m.startDate}">-</td>
+                            <td th:text="${m.expectedEndDate}">-</td>
+                            <td th:text="${m.serviceType}">-</td>
+                            <td th:text="${m.status}">-</td>
+                            <td th:text="${m.estimatedCost}">-</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(nextMaintenances)}">
+                            <td colspan="6" class="muted">Sem manutencoes futuras.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
