@@ -385,6 +385,46 @@ td {
   color: #ffffff;
 }
 
+.link.edit,
+.link.danger {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.link.edit {
+  color: #ffffff;
+  background: rgba(3, 74, 166, 0.18);
+  border-color: rgba(3, 74, 166, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(228, 234, 242, 0.12);
+}
+
+.link.edit:hover {
+  background: rgba(3, 74, 166, 0.3);
+  border-color: rgba(3, 74, 166, 0.55);
+  box-shadow: 0 8px 16px rgba(3, 74, 166, 0.25);
+  transform: translateY(-1px);
+}
+
+.link.danger {
+  color: #ffffff;
+  background: rgba(215, 38, 56, 0.18);
+  border-color: rgba(215, 38, 56, 0.4);
+  box-shadow: inset 0 0 0 1px rgba(228, 234, 242, 0.12);
+}
+
+.link.danger:hover {
+  background: rgba(215, 38, 56, 0.3);
+  border-color: rgba(215, 38, 56, 0.6);
+  box-shadow: 0 8px 16px rgba(215, 38, 56, 0.25);
+  transform: translateY(-1px);
+}
+
 .form .link {
   padding: 6px 10px;
   border-radius: 999px;

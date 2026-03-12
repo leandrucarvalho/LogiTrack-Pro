@@ -156,8 +156,8 @@
                                 <td>{{ m.status }}</td>
                                 <td>{{ m.estimatedCost }}</td>
                                 <td class="actions">
-                                    <button class="link" type="button" @click="editMaintenance(m)">Editar</button>
-                                    <button class="link" type="button" @click="removeMaintenance(m.id)">Excluir</button>
+                                    <button class="link edit" type="button" @click="editMaintenance(m)">Editar</button>
+                                    <button class="link danger" type="button" @click="removeMaintenance(m.id)">Excluir</button>
                                 </td>
                             </tr>
                             <tr v-if="!maintenances.length">
