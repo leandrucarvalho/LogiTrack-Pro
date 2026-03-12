@@ -27,7 +27,24 @@
                 </label>
                 <label>
                     Senha
-                    <input type="password" name="password" required />
+                    <div class="password-field">
+                        <input id="password" type="password" name="password" required />
+                        <button class="toggle-password" type="button" id="togglePassword" aria-label="Exibir senha">
+                            <span class="icon icon-eye" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </span>
+                            <span class="icon icon-eye-off" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.7 21.7 0 0 1 5.06-6.56"></path>
+                                    <path d="M9.88 9.88a3 3 0 0 0 4.24 4.24"></path>
+                                    <path d="M1 1l22 22"></path>
+                                </svg>
+                            </span>
+                        </button>
+                    </div>
                 </label>
                 <button type="submit">Acessar</button>
             </form>
@@ -41,12 +58,20 @@
         const params = new URLSearchParams(window.location.search);
         const error = document.getElementById('error');
         const logout = document.getElementById('logout');
+        const togglePassword = document.getElementById('togglePassword');
+        const passwordInput = document.getElementById('password');
         if (params.get('error')) {
             error.hidden = false;
         }
         if (params.get('logout')) {
             logout.hidden = false;
         }
+        togglePassword.addEventListener('click', () => {
+            const isHidden = passwordInput.type === 'password';
+            passwordInput.type = isHidden ? 'text' : 'password';
+            togglePassword.setAttribute('aria-label', isHidden ? 'Ocultar senha' : 'Exibir senha');
+            togglePassword.classList.toggle('is-active', isHidden);
+        });
     </script>
 </body>
 </html>

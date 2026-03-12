@@ -1,123 +1,196 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
 :root {
-    --bg: #E4EAF2;
-    --bg-accent: #B5B4D9;
-    --text: #0A1626;
-    --muted: #042159;
-    --card: #B5B4D9;
-    --border: rgba(4, 33, 89, 0.25);
-    --accent: #034AA6;
-    --accent-dark: #042159;
+  --bg: #e4eaf2;
+  --bg-accent: #b5b4d9;
+  --text: #0a1626;
+  --muted: #042159;
+  --card: #b5b4d9;
+  --border: rgba(4, 33, 89, 0.25);
+  --accent: #034aa6;
+  --accent-dark: #042159;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: "Space Grotesk", "Segoe UI", sans-serif;
-    color: var(--text);
-    background:
-        radial-gradient(circle at 15% 25%, rgba(3, 74, 166, 0.45) 0%, transparent 45%),
-        radial-gradient(circle at 80% 60%, rgba(4, 33, 89, 0.6) 0%, transparent 50%),
-        linear-gradient(160deg, #0A1626 0%, #03112b 60%, #0A1626 100%);
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
+  margin: 0;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(
+      circle at 15% 25%,
+      rgba(3, 74, 166, 0.45) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(4, 33, 89, 0.6) 0%,
+      transparent 50%
+    ),
+    linear-gradient(160deg, #0a1626 0%, #03112b 60%, #0a1626 100%);
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
 }
 
 .login {
-    width: min(420px, 92vw);
+  width: min(420px, 92vw);
 }
 
 .card {
-    background: rgba(228, 234, 242, 0.95);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 28px;
-    box-shadow: 0 16px 30px rgba(4, 33, 89, 0.28);
-    display: grid;
-    gap: 8px;
+  background: rgba(228, 234, 242, 0.95);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 16px 30px rgba(4, 33, 89, 0.28);
+  display: grid;
+  gap: 8px;
 }
 
 .brand {
-    display: flex;
-    gap: 12px;
-    align-items: center;
+  display: flex;
+  gap: 12px;
+  align-items: center;
 }
 
 .brand-mark {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    background: var(--accent);
-    color: #fff;
-    font-weight: 700;
-    letter-spacing: 1px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 h1 {
-    margin: 0;
-    font-size: 1.4rem;
+  margin: 0;
+  font-size: 1.4rem;
 }
 
 .brand p {
-    margin: 2px 0 0;
-    color: var(--muted);
+  margin: 2px 0 0;
+  color: var(--muted);
 }
 
 h2 {
-    margin: 6px 0 0;
+  margin: 6px 0 0;
 }
 
 .muted {
-    margin: 0 0 12px;
-    color: var(--muted);
+  margin: 0 0 12px;
+  color: var(--muted);
 }
 
 form {
-    display: grid;
-    gap: 14px;
+  display: grid;
+  gap: 14px;
 }
 
 label {
-    display: grid;
-    gap: 6px;
-    font-weight: 600;
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
 }
 
 input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    font-family: inherit;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  font-family: inherit;
+}
+
+.password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-field input {
+  padding-right: 34px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.toggle-password.is-active {
+  color: var(--muted);
+}
+
+.toggle-password svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.toggle-password:hover,
+.toggle-password:focus,
+.toggle-password:focus-visible,
+.toggle-password:active {
+  color: var(--muted);
+  outline: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.toggle-password .icon-eye-off {
+  display: none;
+}
+
+.toggle-password.is-active .icon-eye {
+  display: none;
+}
+
+.toggle-password.is-active .icon-eye-off {
+  display: inline-flex;
 }
 
 button {
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 18px;
-    font-weight: 600;
-    cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 button:hover {
-    background: var(--accent-dark);
+  background: var(--accent-dark);
 }
 
 .error {
-    color: #b42318;
-    margin: 0;
+  color: #b42318;
+  margin: 0;
 }
 
 .success {
-    color: #0f766e;
-    margin: 0;
+  color: #0f766e;
+  margin: 0;
 }
