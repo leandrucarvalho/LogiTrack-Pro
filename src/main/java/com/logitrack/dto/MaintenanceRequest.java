@@ -11,9 +11,7 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public class MaintenanceForm {
-
-    private Integer id;
+public class MaintenanceRequest {
 
     @NotNull
     private Integer vehicleId;
@@ -34,14 +32,6 @@ public class MaintenanceForm {
 
     @NotNull
     private MaintenanceStatus status;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public Integer getVehicleId() {
         return vehicleId;

@@ -25,3 +25,22 @@ CREATE TABLE IF NOT EXISTS manutencoes (
     custo_estimado DECIMAL(10,2),
     status VARCHAR(20) DEFAULT 'PENDENTE'
 );
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(120) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    senha VARCHAR(100) NOT NULL,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS roles (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS usuario_roles (
+    usuario_id INTEGER REFERENCES usuarios(id) ON DELETE CASCADE,
+    role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE,
+    PRIMARY KEY (usuario_id, role_id)
+);

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LogiTrack Pro - Login</title>
+    <link rel="stylesheet" href="/login.css" />
+</head>
+<body>
+    <main class="login">
+        <section class="card">
+            <div class="brand">
+                <span class="brand-mark">LT</span>
+                <div>
+                    <h1>LogiTrack Pro</h1>
+                    <p>Acesso ao painel</p>
+                </div>
+            </div>
+
+            <h2>Entrar</h2>
+            <p class="muted">Use seu e-mail e senha cadastrados.</p>
+
+            <form method="post" action="/login">
+                <label>
+                    E-mail
+                    <input type="email" name="email" required autofocus />
+                </label>
+                <label>
+                    Senha
+                    <input type="password" name="password" required />
+                </label>
+                <button type="submit">Acessar</button>
+            </form>
+
+            <p class="error" id="error" hidden>Credenciais invalidas.</p>
+            <p class="success" id="logout" hidden>Logout realizado.</p>
+        </section>
+    </main>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const error = document.getElementById('error');
+        const logout = document.getElementById('logout');
+        if (params.get('error')) {
+            error.hidden = false;
+        }
+        if (params.get('logout')) {
+            logout.hidden = false;
+        }
+    </script>
+</body>
+</html>

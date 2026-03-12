@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LogiTrack Pro</title>
+    <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+    <div id="app" v-cloak>
+        <section class="hero-shell">
+            <header class="site-header">
+                <div class="brand">
+                    <span class="brand-mark">LT</span>
+                    <div>
+                        <h1>LogiTrack Pro</h1>
+                        <p>Inteligencia para a frota</p>
+                    </div>
+                </div>
+                <nav class="nav">
+                    <a href="#dashboard" :class="{ active: currentView === 'dashboard' }">Dashboard</a>
+                    <a href="#maintenances" :class="{ active: currentView === 'maintenances' }">Manutencoes</a>
+                <button class="link logout" type="button" @click="logout" data-tooltip="Sair da plataforma" aria-label="Sair da plataforma">
+                    <span class="icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M15 3h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2" />
+                            <path d="M10 17l5-5-5-5" />
+                            <path d="M15 12H3" />
+                        </svg>
+                    </span>
+                    <span class="logout-text">Sair</span>
+                </button>
+            </nav>
+            </header>
+
+            <section class="hero" v-if="currentView === 'dashboard'">
+                <div class="hero-text">
+                    <span class="pill">Plataforma de manutencao inteligente</span>
+                    <h2>Transformacao digital sob medida para uma frota eficiente</h2>
+                    <p>Centralize manutencoes, monitore quilometragem e acompanhe indicadores em tempo real para decisoes mais rapidas.</p>
+                </div>
+                <div class="hero-orb">
+                    <div class="orb-core"></div>
+                </div>
+            </section>
+        </section>
+
+        <main class="container">
+            <section id="dashboard" class="panel" v-if="currentView === 'dashboard'">
+                <div class="panel-header">
+                    <div>
+                        <h2>Dashboard</h2>
+                        <p>Indicadores extraidos do banco via SQL.</p>
+                    </div>
+                    <div class="filter">
+                        <label for="vehicleFilter">Veiculo</label>
+                        <select id="vehicleFilter" v-model="selectedVehicleId" @change="loadDashboard">
+                            <option value="">Toda a frota</option>
+                            <option v-for="vehicle in vehicles" :key="vehicle.id" :value="vehicle.id">
+                                {{ vehicle.plate }} - {{ vehicle.model }} ({{ vehicle.type }})
+                            </option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="cards">
+                    <article class="card">
+                        <h3>Total KM (frota)</h3>
+                        <p class="metric">{{ dashboard.totalKmAll ?? 0 }}</p>
+                    </article>
+                    <article class="card" v-if="selectedVehicleId">
+                        <h3>Total KM (veiculo)</h3>
+                        <p class="metric">{{ dashboard.totalKmByVehicle ?? 0 }}</p>
+                    </article>
+                    <article class="card">
+                        <h3>Projecao financeira do mes</h3>
+                        <p class="metric">{{ dashboard.projectedMaintenanceCost ?? 0 }}</p>
+                    </article>
+                    <article class="card">
+                        <h3>Ranking de utilizacao</h3>
+                        <div v-if="dashboard.topUtilization">
+                            <p class="metric">{{ dashboard.topUtilization.totalKm }}</p>
+                            <p class="muted">{{ dashboard.topUtilization.plate }} - {{ dashboard.topUtilization.model }} ({{ dashboard.topUtilization.type }})</p>
+                        </div>
+                        <p class="muted" v-else>Sem dados de viagens.</p>
+                    </article>
+                    <article class="card">
+                        <h3>Volume por categoria</h3>
+                        <ul class="list" v-if="dashboard.volumeByCategory.length">
+                            <li v-for="row in dashboard.volumeByCategory" :key="row.type">{{ row.type }}: {{ row.total }}</li>
+                        </ul>
+                        <p class="muted" v-else>Sem dados de viagens.</p>
+                    </article>
+                </div>
+
+                <div class="panel-sub">
+                    <h3>Cronograma de manutencao (proximas 5)</h3>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Veiculo</th>
+                                    <th>Inicio</th>
+                                    <th>Fim previsto</th>
+                                    <th>Servico</th>
+                                    <th>Status</th>
+                                    <th>Custo estimado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="m in dashboard.nextMaintenances" :key="m.id">
+                                    <td>{{ m.vehicle.plate }}</td>
+                                    <td>{{ m.startDate }}</td>
+                                    <td>{{ m.expectedEndDate || '-' }}</td>
+                                    <td>{{ m.serviceType }}</td>
+                                    <td>{{ m.status }}</td>
+                                    <td>{{ m.estimatedCost }}</td>
+                                </tr>
+                                <tr v-if="!dashboard.nextMaintenances.length">
+                                    <td colspan="6" class="muted">Sem manutencoes futuras.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="maintenances" class="panel" v-if="currentView === 'maintenances'">
+                <div class="panel-header">
+                    <div>
+                        <h2>Manutencoes</h2>
+                        <p>CRUD de manutencoes da frota.</p>
+                    </div>
+                    <button class="button" type="button" @click="openForm">Nova manutencao</button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Veiculo</th>
+                                <th>Inicio</th>
+                                <th>Fim previsto</th>
+                                <th>Servico</th>
+                                <th>Status</th>
+                                <th>Custo</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="m in maintenances" :key="m.id">
+                                <td>{{ m.vehicle.plate }}</td>
+                                <td>{{ m.startDate }}</td>
+                                <td>{{ m.expectedEndDate || '-' }}</td>
+                                <td>{{ m.serviceType }}</td>
+                                <td>{{ m.status }}</td>
+                                <td>{{ m.estimatedCost }}</td>
+                                <td class="actions">
+                                    <button class="link" type="button" @click="editMaintenance(m)">Editar</button>
+                                    <button class="link" type="button" @click="removeMaintenance(m.id)">Excluir</button>
+                                </td>
+                            </tr>
+                            <tr v-if="!maintenances.length">
+                                <td colspan="7" class="muted">Nenhuma manutencao cadastrada.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="modal-overlay" v-if="showForm" @click.self="closeForm">
+                    <div class="modal-card" role="dialog" aria-modal="true">
+                        <form class="form maintenance-form" @submit.prevent="submitForm">
+                            <div class="form-header">
+                                <div>
+                                    <h3>{{ editingId ? 'Editar manutencao' : 'Nova manutencao' }}</h3>
+                                    <p class="form-sub">Preencha os dados e salve para atualizar o painel.</p>
+                                </div>
+                                <button type="button" class="link" @click="closeForm">Fechar</button>
+                            </div>
+                            <div class="form-grid">
+                                <label class="field full">
+                                    Veiculo
+                                    <select v-model.number="form.vehicleId" required>
+                                        <option value="">Selecione</option>
+                                        <option v-for="vehicle in vehicles" :key="vehicle.id" :value="vehicle.id">
+                                            {{ vehicle.plate }} - {{ vehicle.model }} ({{ vehicle.type }})
+                                        </option>
+                                    </select>
+                                </label>
+                                <label class="field">
+                                    Data de inicio
+                                    <input type="date" v-model="form.startDate" required />
+                                </label>
+                                <label class="field">
+                                    Data de fim prevista
+                                    <input type="date" v-model="form.expectedEndDate" />
+                                </label>
+                                <label class="field full">
+                                    Tipo de servico
+                                    <input type="text" v-model.trim="form.serviceType" placeholder="Ex: Troca de oleo" required />
+                                </label>
+                                <label class="field">
+                                    Custo estimado
+                                    <input type="number" step="0.01" min="0" v-model.number="form.estimatedCost" required />
+                                </label>
+                                <label class="field">
+                                    Status
+                                    <select v-model="form.status" required>
+                                        <option value="">Selecione</option>
+                                        <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div class="actions form-actions">
+                                <button type="submit" class="button">Salvar</button>
+                                <button type="button" class="link" @click="resetForm">Limpar</button>
+                            </div>
+                            <p class="error" v-if="error">{{ error }}</p>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
+    <script src="/app.js"></script>
+</body>
+</html>
