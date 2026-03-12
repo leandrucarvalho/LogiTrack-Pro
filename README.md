@@ -2,6 +2,9 @@
 
 MVP do desafio tecnico LogiTrack Pro. Aplicacao web em Spring Boot com modulo de manutencoes (CRUD) e dashboard de indicadores calculados por SQL.
 
+## URL do projeto
+https://logitrack-pro.onrender.com/
+
 ## Stack
 - Java 17
 - Spring Boot (Web, Data JPA, Validation)
@@ -37,7 +40,7 @@ Exemplo de JDBC:
 `jdbc:postgresql://<host>:<port>/<db>`
 
 ## Login
-Na primeira execucao, um usuario administrador e criado automaticamente:
+Na primeira execucao, um usuario administrador é criado automaticamente:
 - Email: `admin@logitrack.local`
 - Senha: `admin123`
 
