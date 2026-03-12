@@ -14,7 +14,7 @@
             <span class="brand-mark">LT</span>
             <div>
               <h1>LogiTrack Pro</h1>
-              <p>Inteligencia para a frota</p>
+              <p>Inteligência para a frota</p>
             </div>
           </div>
           <nav class="nav">
@@ -26,7 +26,7 @@
             <a
               href="#maintenances"
               :class="{ active: currentView === 'maintenances' }"
-              >Manutencoes</a
+              >Manutenções</a
             >
             <button
               class="link logout"
@@ -49,11 +49,11 @@
 
         <section class="hero" v-if="currentView === 'dashboard'">
           <div class="hero-text">
-            <span class="pill">Plataforma de manutencao inteligente</span>
-            <h2>Transformacao digital sob medida para uma frota eficiente</h2>
+            <span class="pill">Plataforma de manutenção inteligente</span>
+            <h2>Transformação digital sob medida para uma frota eficiente</h2>
             <p>
-              Centralize manutencoes, monitore quilometragem e acompanhe
-              indicadores em tempo real para decisoes mais rapidas.
+              Centralize manutenções, monitore quilometragem e acompanhe
+              indicadores em tempo real para decisões mais rápidas.
             </p>
           </div>
           <div class="hero-orb">
@@ -74,7 +74,7 @@
               <p>Indicadores extraidos do banco via SQL.</p>
             </div>
             <div class="filter">
-              <label for="vehicleFilter">Veiculo</label>
+              <label for="vehicleFilter">Veículo</label>
               <select
                 id="vehicleFilter"
                 v-model="selectedVehicleId"
@@ -102,13 +102,13 @@
               <p class="metric">{{ dashboard.totalKmByVehicle ?? 0 }}</p>
             </article>
             <article class="card">
-              <h3>Projecao financeira do mes</h3>
+              <h3>Projeção financeira do mês</h3>
               <p class="metric">
                 {{ dashboard.projectedMaintenanceCost ?? 0 }}
               </p>
             </article>
             <article class="card">
-              <h3>Ranking de utilizacao</h3>
+              <h3>Ranking de utilização</h3>
               <div v-if="dashboard.topUtilization">
                 <p class="metric">{{ dashboard.topUtilization.totalKm }}</p>
                 <p class="muted">
@@ -131,15 +131,15 @@
           </div>
 
           <div class="panel-sub">
-            <h3>Cronograma de manutencao (proximas 5)</h3>
+            <h3>Cronograma de manutenção (próximas 5)</h3>
             <div class="table-wrap">
               <table>
                 <thead>
                   <tr>
-                    <th>Veiculo</th>
-                    <th>Inicio</th>
+                    <th>Veículo</th>
+                    <th>Início</th>
                     <th>Fim previsto</th>
-                    <th>Servico</th>
+                    <th>Serviço</th>
                     <th>Status</th>
                     <th>Custo estimado</th>
                   </tr>
@@ -154,7 +154,7 @@
                     <td>{{ m.estimatedCost }}</td>
                   </tr>
                   <tr v-if="!dashboard.nextMaintenances.length">
-                    <td colspan="6" class="muted">Sem manutencoes futuras.</td>
+                    <td colspan="6" class="muted">Sem manutenções futuras.</td>
                   </tr>
                 </tbody>
               </table>
@@ -181,10 +181,10 @@
             <table>
               <thead>
                 <tr>
-                  <th>Veiculo</th>
-                  <th>Inicio</th>
+                  <th>Veículo</th>
+                  <th>Início</th>
                   <th>Fim previsto</th>
-                  <th>Servico</th>
+                  <th>Serviço</th>
                   <th>Status</th>
                   <th>Custo</th>
                   <th></th>
@@ -256,7 +256,7 @@
                     </select>
                   </label>
                   <label class="field">
-                    Data de inicio
+                    Data de início
                     <input type="date" v-model="form.startDate" required />
                   </label>
                   <label class="field">
@@ -264,11 +264,11 @@
                     <input type="date" v-model="form.expectedEndDate" />
                   </label>
                   <label class="field full">
-                    Tipo de servico
+                    Tipo de serviço
                     <input
                       type="text"
                       v-model.trim="form.serviceType"
-                      placeholder="Ex: Troca de oleo"
+                      placeholder="Ex: Troca de óleo"
                       required
                     />
                   </label>
