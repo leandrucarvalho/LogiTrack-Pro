@@ -543,6 +543,27 @@ td {
   }
 }
 
+@media (max-width: 640px) {
+  .modal-overlay {
+    padding: 12px;
+    align-items: flex-end;
+  }
+
+  .modal-card {
+    width: 100%;
+    animation: slideUp 0.25s ease-out;
+  }
+
+  .form {
+    border-radius: 18px 18px 0 0;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -559,6 +580,17 @@ td {
   }
   to {
     transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
     opacity: 1;
   }
 }
