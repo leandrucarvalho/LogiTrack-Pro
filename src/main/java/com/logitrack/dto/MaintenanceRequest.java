@@ -8,29 +8,35 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.logitrack.model.MaintenanceStatus;
 
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class MaintenanceRequest {
 
-    @NotNull
+    @NotNull(message = "vehicleId e obrigatorio")
+    @Min(value = 1, message = "vehicleId deve ser maior que zero")
     private Integer vehicleId;
 
-    @NotNull
+    @NotNull(message = "data de inicio e obrigatoria")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate startDate;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate expectedEndDate;
 
-    @NotBlank
+    @NotBlank(message = "tipo de servico e obrigatorio")
+    @Size(max = 100, message = "tipo de servico deve ter no maximo 100 caracteres")
     private String serviceType;
 
-    @NotNull
-    @DecimalMin("0.0")
+    @NotNull(message = "custo estimado e obrigatorio")
+    @DecimalMin(value = "0.0", inclusive = true, message = "custo estimado deve ser maior ou igual a zero")
+    @Digits(integer = 8, fraction = 2, message = "custo estimado deve ter ate 8 digitos e 2 casas decimais")
     private BigDecimal estimatedCost;
 
-    @NotNull
+    @NotNull(message = "status e obrigatorio")
     private MaintenanceStatus status;
 
     public Integer getVehicleId() {

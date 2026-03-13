@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
 
 import com.logitrack.dto.DashboardResponse;
 import com.logitrack.dto.MaintenanceResponse;
@@ -17,8 +18,11 @@ import com.logitrack.repository.projection.VolumeByCategory;
 import com.logitrack.service.DashboardService;
 import com.logitrack.service.MaintenanceService;
 
+import jakarta.validation.constraints.Min;
+
 @RestController
 @RequestMapping("/api")
+@Validated
 public class DashboardApiController {
 
     private final DashboardService dashboardService;
@@ -30,7 +34,9 @@ public class DashboardApiController {
     }
 
     @GetMapping("/dashboard")
-    public DashboardResponse dashboard(@RequestParam(name = "vehicleId", required = false) Integer vehicleId) {
+    public DashboardResponse dashboard(
+            @RequestParam(name = "vehicleId", required = false)
+            @Min(value = 1, message = "vehicleId deve ser maior que zero") Integer vehicleId) {
         DashboardResponse response = new DashboardResponse();
         response.setTotalKmAll(dashboardService.totalKmAll());
         response.setTotalKmByVehicle(vehicleId == null ? null : dashboardService.totalKmByVehicle(vehicleId));

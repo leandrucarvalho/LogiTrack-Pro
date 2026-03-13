@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.logitrack.exception.ResourceNotFoundException;
 import com.logitrack.model.Maintenance;
 import com.logitrack.model.Vehicle;
 import com.logitrack.repository.MaintenanceRepository;
@@ -28,7 +29,7 @@ public class MaintenanceService {
 
     public Maintenance getById(Integer id) {
         return maintenanceRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Manutencao nao encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Manutencao nao encontrada"));
     }
 
     public Maintenance save(Maintenance maintenance) {
@@ -36,12 +37,15 @@ public class MaintenanceService {
     }
 
     public void delete(Integer id) {
+        if (!maintenanceRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Manutencao nao encontrada");
+        }
         maintenanceRepository.deleteById(id);
     }
 
     public Vehicle getVehicle(Integer id) {
         return vehicleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Veiculo nao encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Veiculo nao encontrado"));
     }
 
     public List<Vehicle> listVehicles() {
